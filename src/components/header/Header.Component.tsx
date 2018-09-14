@@ -19,6 +19,15 @@ export class HeaderComponent extends React.Component<{}, IHeaderComponentState> 
   }
 
   public render() {
+
+    const searchInput = (
+      <Input
+        className="search-input"
+        type="text"
+        placeholder="Search..."
+      />
+    );
+
     return (
       <header>
         <Navbar expand="md">
@@ -27,11 +36,7 @@ export class HeaderComponent extends React.Component<{}, IHeaderComponentState> 
             To-Do
           </NavbarBrand>
           <div className="d-none d-md-flex search-input-container">
-            <Input
-              className="search-input"
-              type="text"
-              placeholder="Search..."
-            />
+            {searchInput}
           </div>
           <NavbarToggler onClick={this.toggleNavbar}>
             <i className="material-icons">menu</i>
@@ -48,11 +53,7 @@ export class HeaderComponent extends React.Component<{}, IHeaderComponentState> 
           </Collapse>
         </Navbar>
         <div className="d-md-none">
-          <Input
-            className="search-input"
-            type="text"
-            placeholder="Search..."
-          />
+          {searchInput}
         </div>
       </header>
     );
