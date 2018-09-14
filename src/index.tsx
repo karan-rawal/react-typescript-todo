@@ -1,3 +1,4 @@
+import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';

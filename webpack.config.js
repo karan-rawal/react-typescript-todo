@@ -43,6 +43,14 @@ const webpackModule = {
         })
       ),
     },
+    {
+      test: /\.(eot|ttf|woff|woff2)$/,
+      use: 'file-loader?name=[name].[ext]&outputPath=assets/fonts/',
+    },
+    {
+      test: /\.(jpg|png|svg)$/,
+      use: 'file-loader?name=[name].[ext]&outputPath=assets/images/',
+    },
   ]
 };
 
