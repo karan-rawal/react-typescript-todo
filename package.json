@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server",
     "start-prod": "NODE_ENV=prod webpack-dev-server",
-    "build": "rimraf ./dist && tslint --project . && webpack",
-    "build-prod": "rimraf ./dist && tslint --project . && NODE_ENV=prod webpack"
+    "build": "rimraf ./dist && tslint --project . && NODE_ENV=dev BUILD=true webpack",
+    "build-prod": "rimraf ./dist && tslint --project . && NODE_ENV=prod BUILD=true webpack"
   },
   "repository": {
     "type": "git",

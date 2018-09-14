@@ -9,6 +9,7 @@ const PROD_ENV = 'prod';
 const ENV = process.env.NODE_ENV;
 
 const isProd = ENV === PROD_ENV;
+const buildMode = process.env.BUILD;
 
 const entry = `${SRC_DIR}/index.tsx`;
 const output = {
@@ -26,22 +27,20 @@ const webpackModule = {
     { enforce: 'pre', test: /.tsx?$/, use: 'source-map-loader' },
     {
       test: /\.(css|scss)$/,
-      use: ['css-hot-loader'].concat(
-        ExtractTextPlugin.extract({
-          use: [{
-            loader: 'css-loader',
-            options: {
-              sourceMap: !isProd,
-            },
-          }, {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: !isProd,
-            },
-          }],
-          fallback: 'style-loader',
-        })
-      ),
+      use: ExtractTextPlugin.extract({
+        use: [{
+          loader: 'css-loader',
+          options: {
+            sourceMap: !isProd,
+          },
+        }, {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: !isProd,
+          },
+        }],
+        fallback: 'style-loader',
+      }),
     },
     {
       test: /\.(eot|ttf|woff|woff2)$/,
@@ -72,6 +71,8 @@ const devConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
       filename: 'style.css',
+      disable: !buildMode,
+      allChunks: !buildMode,
     }),
   ],
 };
@@ -88,6 +89,8 @@ const prodConfig = {
     }),
     new ExtractTextPlugin({
       filename: 'style.css',
+      disable: !buildMode,
+      allChunks: !buildMode,
     }),
   ],
 };
