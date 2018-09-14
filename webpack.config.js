@@ -1,11 +1,14 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const PROD_ENV = 'prod';
 const ENV = process.env.NODE_ENV;
+
+const isProd = ENV === PROD_ENV;
 
 const entry = `${SRC_DIR}/index.tsx`;
 const output = {
@@ -21,6 +24,25 @@ const webpackModule = {
   rules: [
     { test: /.tsx?$/, use: 'awesome-typescript-loader' },
     { enforce: 'pre', test: /.tsx?$/, use: 'source-map-loader' },
+    {
+      test: /\.(css|scss)$/,
+      use: ['css-hot-loader'].concat(
+        ExtractTextPlugin.extract({
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: !isProd,
+            },
+          }, {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: !isProd,
+            },
+          }],
+          fallback: 'style-loader',
+        })
+      ),
+    },
   ]
 };
 
@@ -40,6 +62,9 @@ const devConfig = {
       template: `${SRC_DIR}/index.html`,
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin({
+      filename: 'style.css',
+    }),
   ],
 };
 
@@ -53,7 +78,10 @@ const prodConfig = {
     new htmlWebpackPlugin({
       template: `${SRC_DIR}/index.html`,
     }),
+    new ExtractTextPlugin({
+      filename: 'style.css',
+    }),
   ],
 };
 
-module.exports = ENV === PROD_ENV ? prodConfig : devConfig;
+module.exports = isProd ? prodConfig : devConfig;
