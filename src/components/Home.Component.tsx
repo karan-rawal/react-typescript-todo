@@ -5,7 +5,6 @@ export default class HomeComponent extends React.Component {
     return (
       <div>
         Home Component.
-        Test bootstrap glyphicon - <span className="glyphicon glyphicon-asterisk"></span>
       </div>
     );
   }
